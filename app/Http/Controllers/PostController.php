@@ -9,8 +9,6 @@ class PostController extends Controller
 {
     public function index()
     {
-        $this->authorize('user-can-access');
-
         return 'Posts';
     }
 
@@ -28,10 +26,22 @@ class PostController extends Controller
         //true se o usuário é permitido
         //Gate::allows('user-can-edit', $post)
 //dd(Gate::allows('update', $post));
-//        if(!) {
+//        if(!Gate::allows('update', $post)) {
 //            abort(403, 'This action is unauthorized!');
 //            //return redirect()->route('home');
 //        }
+
+        //$user = auth()->user();
+        //dd($user->can('update', $post));
+        //dd($user->cannot('update', $post));
+
+        //dd(Gate::any(['update', 'delete'], $post));
+        //dd(Gate::check(['update', 'delete'], $post));
+
+        if(!Gate::allows('update', $post)) {
+            abort(403, 'This action is unauthorized!');
+            //return redirect()->route('home');
+        }
 
         return 'Post Edit...';
     }

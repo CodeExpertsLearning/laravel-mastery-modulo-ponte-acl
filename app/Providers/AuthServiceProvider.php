@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,16 +31,27 @@ class AuthServiceProvider extends ServiceProvider
             if($result = $user->isAdmin()) return $result;
         });
 
-        Gate::define('user-can-access', function($user) {
-            return false;
-        });
+//        Gate::define('user-can-access', function($user) {
+//            return false;
+//        });
+//
+//
+//        Gate::define('user-can-edit', function($user, $post) {
+//
+//            //return $post->user->id == $user->id;
+//
+//            // return $user->posts->contains($post);
+//        });
 
+        if(!Schema::hasTable('permissions')) return null;
 
-        Gate::define('user-can-edit', function($user, $post) {
+        foreach(\App\Models\Permission::all() as $permission) {
 
-            //return $post->user->id == $user->id;
+            Gate::define($permission->permission, function($user)  use($permission){
+                if(!$user->role) return false;
 
-            // return $user->posts->contains($post);
-        });
+                return $user->role->permissions->contains($permission);
+            });
+        }
     }
 }
