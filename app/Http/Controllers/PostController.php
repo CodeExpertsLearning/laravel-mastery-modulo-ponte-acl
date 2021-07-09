@@ -21,17 +21,17 @@ class PostController extends Controller
         //Este método verifica o controle/ability/permissao e dispara uma exception
         //causando um 403 Unauthorized
         //$this->authorize('user-can-edit', $post);
-
+        //$this->authorize('update', $post);
         //true se o usuário não é permitido...
         //Gate::denies('user-can-edit', $post);
 
         //true se o usuário é permitido
         //Gate::allows('user-can-edit', $post)
-
-        if(!Gate::allows('user-can-edit', $post)) {
-            //abort(403, 'This action is unauthorized!');
-            return redirect()->route('home');
-        }
+//dd(Gate::allows('update', $post));
+//        if(!) {
+//            abort(403, 'This action is unauthorized!');
+//            //return redirect()->route('home');
+//        }
 
         return 'Post Edit...';
     }

@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        //'App\Models\Post' => 'App\Policies\PostPolicy',
     ];
 
     /**
@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
 
             //return $post->user->id == $user->id;
 
-            return $user->posts->contains($post);
+            // return $user->posts->contains($post);
         });
     }
 }
